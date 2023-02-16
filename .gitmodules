@@ -1,0 +1,3 @@
+[submodule "tkinter_page_router"]
+	path = tkinter_page_router
+	url = https://github.com/traipham/Tkinter-Page_Router-API.git
