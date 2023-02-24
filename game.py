@@ -159,7 +159,7 @@ class game():
 
         # Set label of tie or winner
         lab_text = ""
-        if status is "TIE":
+        if status == "TIE":
             lab_text = status
         else:
             lab_text = f"{self.user[0]} WINS!"
