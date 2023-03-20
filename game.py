@@ -12,7 +12,7 @@ PLAYER_1_COLOR = "Blue"
 PLAYER_2_COLOR = "Red"
 
 class game():
-    def __init__(self, master: tk.Frame, page: Page):
+    def __init__(self, master: tk.Frame, page: Page, root:tk.Tk):
         self.master = master
         page.set_title("Tic-Tac-Toe")
 
@@ -26,18 +26,34 @@ class game():
         self.frame = ttk.Frame(master=master, borderwidth=3, relief="groove")
         self.player_label = tk.Label(master=master, text=f"{self.user[0]} Turn", font=('consolas', 40), fg=self.user[1])
         self.reset_button = ttk.Button(master=master, text="restart", command= lambda: self.new_game(False))
+        
         # Scaling config
+        self.master.rowconfigure(4,weight=1)
+        self.master.columnconfigure(0, weight=1)
+        self.frame.rowconfigure(0, weight=1)
+        self.frame.rowconfigure(1, weight=1)
+        self.frame.rowconfigure(2, weight=1)
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+
+        # display board 
+        self.player_label.grid(row=2, column=0)
+        self.reset_button.grid(row=3, column=0)
+        self.frame.grid(row=4, column=0)
+
+        # game_frame_size
+        root.update()
+        root.update_idletasks()
+        self.game_width = root.winfo_width()
+        self.game_height = root.winfo_height()
+        self.button_size = int(self.game_width*0.005)
 
         # Create board
         self.board = self.create_board()
         self.board_size = len(self.board)*len(self.board)
         self.win_count = self.board_size
 
-        self.player_label.grid(row=2, column=0)
-        self.reset_button.grid(row=3, column=0)
-        self.frame.grid(row=4, column=0)
-
-        pass
 
     def create_board(self, num_match: int = 3) -> List[List[tk.Button]]:
         """
@@ -48,12 +64,11 @@ class game():
         # s = ttk.Style()
         # s.configure('board_button.TButton', font=('consolas', 40))
         res_list=[[0 for i in range(num_match)] for j in range(num_match)]
-
         for i in range(num_match):
             # initiated board with buttons
             for j in range(num_match):
-                res_list[i][j] = tk.Button(master=self.frame, text="", font=('consolas', 40), width=8,
-                                            command=lambda row=i, column=j: self.next_turn(row, column))
+                res_list[i][j] = tk.Button(master=self.frame, text="", font=('consolas', 40),
+                                            command=lambda row=i, column=j: self.next_turn(row, column), width=5)
                 res_list[i][j].grid(row=i ,column=j, sticky="NSEW")
         return res_list
 

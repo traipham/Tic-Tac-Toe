@@ -1,17 +1,17 @@
 import tkinter as tk
 from tkinter import *
 from tkinter.ttk import *
-
+import asyncio
 import tkinter_page_router.router as router
 import game
 
-if __name__ == "__main__":
+def main():
     root = router.Router()
 
     # Window setting
     root.title("Tic-Tac-Toe")
-    window_width = 1080
-    window_height = 720
+    window_width = 640 
+    window_height = 480
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     center_width = int(screen_width/2 - window_width/2)
@@ -20,7 +20,13 @@ if __name__ == "__main__":
 
     # Initiate game
     root.append_new_page("Start")
-    game.game(root.pages["Start"].game_frame, root.pages["Start"])
-
+    root.rowconfigure(0, weight=1)
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(1, weight=1)
+    root.columnconfigure(1, weight=1)
+    tic_tac_toe_game = game.game(root.pages["Start"].game_frame, root.pages["Start"], root)
     # Run game
     root.mainloop()
+
+if __name__ == "__main__":
+    main()
